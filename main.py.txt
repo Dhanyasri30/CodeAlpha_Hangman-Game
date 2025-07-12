@@ -1,0 +1,43 @@
+import random
+
+# List of possible words
+words = ["python", "hangman", "challenge", "programming", "code", "developer"]
+
+# Choose a random word
+word = random.choice(words)
+word_letters = set(word)  # Unique letters in the word
+guessed_letters = set()   # Letters the user has guessed
+alphabet = set("abcdefghijklmnopqrstuvwxyz")
+lives = 6
+
+print("Welcome to Hangman!")
+
+# Game loop
+while len(word_letters) > 0 and lives > 0:
+    print(f"\nYou have {lives} lives left.")
+    print("Guessed letters: ", " ".join(guessed_letters))
+
+    # Display current word status
+    word_display = [letter if letter in guessed_letters else "_" for letter in word]
+    print("Current word: ", " ".join(word_display))
+
+    guess = input("Guess a letter: ").lower()
+
+    if guess in alphabet - guessed_letters:
+        guessed_letters.add(guess)
+        if guess in word_letters:
+            word_letters.remove(guess)
+            print("Correct!")
+        else:
+            lives -= 1
+            print("Wrong letter.")
+    elif guess in guessed_letters:
+        print("You already guessed that letter.")
+    else:
+        print("Invalid character. Please enter a letter.")
+
+# End game message
+if lives == 0:
+    print(f"\nYou died! The word was '{word}'.")
+else:
+    print(f"\nCongratulations! You guessed the word '{word}' correctly!")
